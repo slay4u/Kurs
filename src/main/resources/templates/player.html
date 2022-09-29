@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Manage Player</title>
+    <link rel="stylesheet" type="text/css" th:href="@{/webjars/bootstrap/css/bootstrap.min.css}" />
+</head>
+<style>
+    body{
+        background-color: #88d2b6;
+    }
+</style>
+<body>
+<div class="container-fluid text-center">
+    <div><h2>Player-List</h2></div>
+    <div class="m-2">
+        <a class="h3" th:href="@{/player/new}">Add New Object</a>
+    </div>
+    <div th:if="${message}" class="alert alert-success text-center">
+        [[${message}]]
+    </div>
+    <form class = "text-right" th:action="@{/player/searchByComanda}" method="get">
+        <input type="text" name="name_c" th:value="${name_c}"  placeholder="Search By Comanda" size="22" >
+        <button type="submit" class="btn btn-info" >Search</button>
+        <button type="button" class="btn btn-secondary" onclick="cancelForm1()">Cancel</button>
+    </form>
+    <form class = "text-left" th:action="@{/player/searchByLetter}" method="get">
+        <input type="text" name="pibPlayer" th:value="${pibPlayer}"  placeholder="Search By Letter" size="22" >
+        <button type="submit" class="btn btn-info" >Search</button>
+        <button type="button" class="btn btn-secondary" onclick="cancelForm2()">Cancel</button>
+    </form>
+    <div>
+        <table class="table table-bordered">
+            <thead class="thead-dark">
+            <tr>
+                <th>ID</th>
+                <th>PibOfPlayer</th>
+                <th>CountryOfPlayer</th>
+                <th>Comanda</th>
+                <th>ActionButtons</th>
+            </tr>
+            </thead>
+            <tbody>
+            <th:block th:each="player : ${listPlayer}">
+                <tr>
+                    <td>[[${player.idPlayer}]]</td>
+                    <td>[[${player.pibPlayer}]]</td>
+                    <td>[[${player.country2}]]</td>
+                    <td>[[${player.playerComanda.name_c}]]</td>
+                    <td>
+                        <a class="h4 mr-3" th:href="@{'/player/edit/' + ${player.idPlayer}}">Edit</a>
+                        <a class="h4" th:href="@{'/player/delete/' + ${player.idPlayer}}">Delete</a>
+                    </td>
+                </tr>
+            </th:block>
+            </tbody>
+        </table>
+    </div>
+    <div class="m-2">
+        <button type="button" class="btn btn-secondary m-2" onclick="cancelForm()">Back</button>
+    </div>
+</div>
+<script type="text/javascript">
+    function cancelForm() {
+        window.location = "[[@{/}]]";
+    }
+</script>
+<script type="text/javascript">
+    function cancelForm1() {
+        window.location = "[[@{/player}]]";
+    }
+</script>
+<script type="text/javascript">
+    function cancelForm2() {
+        window.location = "[[@{/player}]]";
+    }
+</script>
+</body>
+</html>
