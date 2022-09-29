@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Manage Comanda</title>
+    <link rel="stylesheet" type="text/css" th:href="@{/webjars/bootstrap/css/bootstrap.min.css}" />
+</head>
+<style>
+    body{
+        background-color: #88d2b6;
+    }
+</style>
+<style> body {font-family: Arial, Helvetica, sans-serif;}
+.modal {
+    display: none;
+    position: fixed;
+    z-index: 1;
+    padding-top: 100px;
+    left: 0;   top: 0;   width: 100%;
+    height: 100%;
+    overflow: auto;
+    background-color: rgb(0,0,0);
+    background-color: rgba(0,0,0,0.4);
+}
+.modal-content {
+    background-color: #fefefe;
+    margin: auto;
+    padding: 20px;
+    border: 1px solid #888;
+    width: 80%;
+}
+.close {
+    color: #aaaaaa;
+    float: right;
+    font-size: 28px;
+    font-weight: bold;
+}
+.close:hover, .close:focus {
+    color: #000;
+    text-decoration: none;
+    cursor: pointer;
+}
+</style>
+<body>
+<div class="container-fluid text-center">
+    <div><h2>Comanda-List</h2></div>
+    <div class="m-2">
+        <a class="h3" th:href="@{/comanda/new}">Add New Object</a>
+    </div>
+    <div th:if="${message}" class="alert alert-success text-center">
+        [[${message}]]
+    </div>
+    <div>
+        Number of comandas by country: <button type="button" class="btn btn-primary" id="myBtn">Search</button>
+        <div id="myModal" class="modal">
+            <div  class="modal-dialog">
+                <div class="modal-content">
+                    <div class="text-right">
+                        <span class="close">&times;</span>
+                    </div>
+                    <div class="text-center">
+                        <table class="table table-bordered">
+                            <thead>
+                            <tr>
+                                <th>Country</th>
+                                <th>Number</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            <th:block th:each="coach : ${listCoach}">
+                                <tr>
+                                    <td>[[${coach.com}]]</td>
+                                    <td>[[${coach.am}]]</td>
+                                </tr>
+                            </th:block>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div>
+        <a th:href="@{/comanda/export}">Export in PDF</a>
+    </div>
+    <div>
+        <table class="table table-bordered">
+            <thead class="thead-dark">
+            <tr>
+                <th>ID</th>
+                <th>NameOfComanda</th>
+                <th>Logo</th>
+                <th>Country</th>
+                <th>ActionButtons</th>
+            </tr>
+            </thead>
+            <tbody>
+            <th:block th:each="comanda : ${listComanda}">
+                <tr>
+                    <td>[[${comanda.idComanda}]]</td>
+                    <td>[[${comanda.name_c}]]</td>
+                    <td>[[${comanda.logo}]]</td>
+                    <td>[[${comanda.country1}]]</td>
+                    <td>
+                        <a class="h4 mr-3" th:href="@{'/comanda/edit/' + ${comanda.idComanda}}">Edit</a>
+                        <a class="h4" th:href="@{'/comanda/delete/' + ${comanda.idComanda}}">Delete</a>
+                    </td>
+                </tr>
+            </th:block>
+            </tbody>
+        </table>
+    </div>
+    <div class="m-2">
+        <button type="button" class="btn btn-secondary m-2" onclick="cancelForm()">Back</button>
+    </div>
+</div>
+<script type="text/javascript">
+    function cancelForm() {
+        window.location = "[[@{/}]]";
+    }
+</script>
+<script>
+    var modal = document.getElementById("myModal");
+    var btn = document.getElementById("myBtn");
+    var span = document.getElementsByClassName("close")[0];
+    btn.onclick = function() {   modal.style.display = "block"; }
+    span.onclick = function() {   modal.style.display = "none"; }
+    window.onclick = function(event) {
+        if (event.target == modal) {
+            modal.style.display = "none";
+        } }
+</script>
+</body>
+</html>

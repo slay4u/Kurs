@@ -1,0 +1,212 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Manage Game</title>
+    <link rel="stylesheet" type="text/css" th:href="@{/webjars/bootstrap/css/bootstrap.min.css}" />
+</head>
+<style>
+    body{
+        background-color: #88d2b6;
+    }
+</style>
+<style> body {font-family: Arial, Helvetica, sans-serif;}
+.modal {
+    display: none;
+    position: fixed;
+    z-index: 1;
+    padding-top: 100px;
+    left: 0;   top: 0;   width: 100%;
+    height: 100%;
+    overflow: auto;
+    background-color: rgb(0,0,0);
+    background-color: rgba(0,0,0,0.4);
+}
+.modal-content {
+    background-color: #fefefe;
+    margin: auto;
+    padding: 20px;
+    border: 1px solid #888;
+    width: 80%;
+}
+.close {
+    color: #aaaaaa;
+    float: right;
+    font-size: 28px;
+    font-weight: bold;
+}
+.close:hover, .close:focus {
+    color: #000;
+    text-decoration: none;
+    cursor: pointer;
+}
+</style>
+<style> body {font-family: Arial, Helvetica, sans-serif;}
+.modal1 {
+    display: none;
+    position: fixed;
+    z-index: 1;
+    padding-top: 100px;
+    left: 0;   top: 0;   width: 100%;
+    height: 100%;
+    overflow: auto;
+    background-color: rgb(0,0,0);
+    background-color: rgba(0,0,0,0.4);
+}
+.modal1-content {
+    background-color: #fefefe;
+    margin: auto;
+    padding: 20px;
+    border: 1px solid #888;
+    width: 80%;
+}
+.close1 {
+    color: #aaaaaa;
+    float: right;
+    font-size: 28px;
+    font-weight: bold;
+}
+.close1:hover, .close1:focus {
+    color: #000;
+    text-decoration: none;
+    cursor: pointer;
+}
+</style>
+<body>
+<div class="container-fluid text-center">
+    <div><h2>Game-List</h2></div>
+    <div class="m-2">
+        <a class="h3" th:href="@{/game/new}">Add New Object</a>
+    </div>
+    <div th:if="${message}" class="alert alert-success text-center">
+        [[${message}]]
+    </div>
+    <form th:action="@{/game/searchByDate}" method="get" class="mt-2" >
+        Choose game from
+        <input type="date" name="date1" th:value="${date1}">
+        to
+        <input type="date" name="date2" th:value="${date2}">
+        <button type="submit" class="btn btn-info" >Search</button>
+        <button type="button" class="btn btn-secondary" onclick="cancelForm1()">Cancel</button>
+    </form>
+    <div>
+        Find number of games for the past month: <button type="button" class="btn btn-primary" id="myBtn">Search</button>
+        <div id="myModal" class="modal">
+            <div  class="modal-dialog">
+                <div class="modal-content">
+                    <div class="text-right">
+                        <span class="close">&times;</span>
+                    </div>
+                    <div class="text-center">
+                        <div th:if="${amount}" >
+                            Number of games:
+                            [[${amount}]]
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div>
+        Last game: <button type="button" class="btn btn-primary" id="myBtn1">Search</button>
+        <div id="myModal1" class="modal1">
+            <div  class="modal-dialog">
+                <div class="modal1-content">
+                    <div class="text-right">
+                        <span class="close1">&times;</span>
+                    </div>
+                    <div class="text-center">
+                        <table class="table table-bordered">
+                            <thead>
+                            <tr>
+                                <th>ID</th>
+                                <th>DateOfGame</th>
+                                <th>TimeOfGame</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            <th:block th:each="last : ${listLast}">
+                                <tr>
+                                    <td>[[${last.idGame}]]</td>
+                                    <td>[[${last.dateGame}]]</td>
+                                    <td>[[${last.timeGame}]]</td>
+                                </tr>
+                            </th:block>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div>
+        <table class="table table-bordered">
+            <thead class="thead-dark">
+            <tr>
+                <th>ID</th>
+                <th>DateOfGame</th>
+                <th>TimeOfGame</th>
+                <th>Comanda1</th>
+                <th>Comanda2</th>
+                <th>Score</th>
+                <th>Players</th>
+                <th>ActionButtons</th>
+            </tr>
+            </thead>
+            <tbody>
+            <th:block th:each="game : ${listGame}">
+                <tr>
+                    <td>[[${game.idGame}]]</td>
+                    <td>[[${game.dateGame}]]</td>
+                    <td>[[${game.timeGame}]]</td>
+                    <td>[[${game.gameComanda1.name_c}]]</td>
+                    <td>[[${game.gameComanda2.name_c}]]</td>
+                    <td>[[${game.rah}]]</td>
+                    <td>[[${game.players}]]</td>
+                    <td>
+                        <a class="h4 mr-3" th:href="@{'/game/edit/' + ${game.idGame}}">Edit</a>
+                        <a class="h4" th:href="@{'/game/delete/' + ${game.idGame}}">Delete</a>
+                    </td>
+                </tr>
+            </th:block>
+            </tbody>
+        </table>
+    </div>
+    <div class="m-2">
+        <button type="button" class="btn btn-secondary m-2" onclick="cancelForm()">Back</button>
+    </div>
+</div>
+<script type="text/javascript">
+    function cancelForm() {
+        window.location = "[[@{/}]]";
+    }
+</script>
+<script type="text/javascript">
+    function cancelForm1() {
+        window.location = "[[@{/game}]]";
+    }
+</script>
+<script>
+    var modal = document.getElementById("myModal");
+    var btn = document.getElementById("myBtn");
+    var span = document.getElementsByClassName("close")[0];
+    btn.onclick = function() {   modal.style.display = "block"; }
+    span.onclick = function() {   modal.style.display = "none"; }
+    window.onclick = function(event) {
+        if (event.target == modal) {
+            modal.style.display = "none";
+        } }
+</script>
+<script>
+    var modal1 = document.getElementById("myModal1");
+    var btn1 = document.getElementById("myBtn1");
+    var span1 = document.getElementsByClassName("close1")[0];
+    btn1.onclick = function() {   modal1.style.display = "block"; }
+    span1.onclick = function() {   modal1.style.display = "none"; }
+    window.onclick = function(event) {
+        if (event.target == modal1) {
+            modal1.style.display = "none";
+        } }
+</script>
+</body>
+</html>

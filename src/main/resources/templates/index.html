@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Web-Application</title>
+    <link rel="stylesheet" type="text/css" th:href="@{/webjars/bootstrap/css/bootstrap.min.css}" />
+</head>
+<style>
+    body{
+        background-color: #88d2b6;
+    }
+</style>
+<body>
+<div class="container-fluid text-center">
+    <h1>All tables</h1>
+    <a class="h2" th:href = "@{/comanda}">Table Comanda</a>
+    <div><a class="h2" th:href = "@{/trener}">Table Trener</a></div>
+    <div><a class="h2" th:href = "@{/player}">Table Player</a></div>
+    <div><a class="h2" th:href = "@{/travma}">Table Travma</a></div>
+    <div><a class="h2" th:href = "@{/game}">Table Game</a></div>
+    <div><a class="h2" th:href = "@{/gol}">Table Gol</a></div>
+</div>
+</body>
+</html>
