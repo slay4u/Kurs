@@ -1,10 +1,10 @@
 package com.company.kurs.domain;
 
 import lombok.*;
-import org.hibernate.annotations.GeneratorType;
+import lombok.Getter;
+import lombok.Setter;
 
 import javax.persistence.*;
-import java.sql.Date;
 import java.util.HashSet;
 import java.util.Set;
 

@@ -1,6 +1,8 @@
 package com.company.kurs.domain;
 
 import lombok.*;
+import lombok.Getter;
+import lombok.Setter;
 
 import java.util.Set;
 import javax.persistence.*;
