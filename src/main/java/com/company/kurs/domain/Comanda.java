@@ -37,4 +37,9 @@ public class Comanda {
 
     @OneToMany(mappedBy = "gameComanda2", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     private Set<Game> games2;
+
+    @Override
+    public String toString() {
+        return this.name_c;
+    }
 }

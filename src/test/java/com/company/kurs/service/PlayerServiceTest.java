@@ -1,5 +1,6 @@
 package com.company.kurs.service;
 
+import com.company.kurs.domain.Comanda;
 import com.company.kurs.domain.Player;
 import com.company.kurs.repository.PlayerRep;
 import org.junit.jupiter.api.Test;
@@ -83,9 +84,43 @@ class PlayerServiceTest {
 
     @Test
     void getPlayerByComanda() {
+        Comanda comanda1 = Comanda.builder().idComanda(1).name_c("Zoria").build();
+        Comanda comanda2 = Comanda.builder().idComanda(2).name_c("Dinamo").build();
+        Player player1 = Player.builder().idPlayer(1).playerComanda(comanda1).pibPlayer("Victor Krylosov").country2("UA").build();
+        Player player2 = Player.builder().idPlayer(2).playerComanda(comanda1).pibPlayer("Valentin Shulga").country2("UK").build();
+        Player player3 = Player.builder().idPlayer(3).playerComanda(comanda2).pibPlayer("Dmytro Vovk").country2("DN").build();
+        List<Player> list = new ArrayList<>(Arrays.asList(player1, player2, player3));
+        List<Player> list1 = new ArrayList<>();
+        Mockito.doAnswer(invocation -> {
+            list.forEach(player -> {
+                if(player.getPlayerComanda().getName_c().equals("Zoria")) {
+                    list1.add(player);
+                }
+            });
+            return list1;
+        }).when(playerRep).findPlayerByComanda("Zoria");
+        List<Player> expectedList = playerRep.findPlayerByComanda("Zoria");
+        assertThat(expectedList).isSameAs(list1);
+        verify(playerRep).findPlayerByComanda("Zoria");
     }
 
     @Test
     void getPlayerByLetter() {
+        Player player1 = Player.builder().idPlayer(1).pibPlayer("Victor Krylosov").country2("UA").build();
+        Player player2 = Player.builder().idPlayer(2).pibPlayer("Valentin Shulga").country2("UK").build();
+        Player player3 = Player.builder().idPlayer(3).pibPlayer("Dmytro Vovk").country2("DN").build();
+        List<Player> list = new ArrayList<>(Arrays.asList(player1, player2, player3));
+        List<Player> list1 = new ArrayList<>();
+        Mockito.doAnswer(invocation -> {
+            list.forEach(player -> {
+                if(player.getPibPlayer().startsWith("V")) {
+                    list1.add(player);
+                }
+            });
+            return list1;
+        }).when(playerRep).findPlayerByLetter("V");
+        List<Player> expectedList = playerRep.findPlayerByLetter("V");
+        assertThat(expectedList).isSameAs(list1);
+        verify(playerRep).findPlayerByLetter("V");
     }
 }

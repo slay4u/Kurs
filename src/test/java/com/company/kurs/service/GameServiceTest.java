@@ -128,5 +128,28 @@ class GameServiceTest {
 
     @Test
     void getLast() {
+        Game game1 = Game.builder().idGame(1).timeGame("12:30").rah("1-0").dateGame(Date.valueOf("2022-01-01")).build();
+        Game game2 = Game.builder().idGame(2).timeGame("15:30").rah("4-1").dateGame(Date.valueOf("2022-02-09")).build();
+        Game game3 = Game.builder().idGame(3).timeGame("17:00").rah("0-7").dateGame(Date.valueOf("2023-11-21")).build();
+        List<Game> list = new ArrayList<>(Arrays.asList(game1, game2, game3));
+        AtomicReference<Date> date = new AtomicReference<>(Date.valueOf("2000-01-01"));
+        List<Game> list1 = new ArrayList<>();
+        Mockito.doAnswer(invocation -> {
+            date.set(list.get(0).getDateGame());
+            for (Game game : list) {
+                if (game.getDateGame().compareTo(date.get()) > 0) {
+                    date.set(game.getDateGame());
+                }
+            }
+            list.forEach(game -> {
+                if (game.getDateGame().toLocalDate().equals(date.get().toLocalDate())) {
+                    list1.add(game);
+                }
+            });
+            return list1;
+        }).when(gameRep).findLast();
+        List<Game> exp = gameRep.findLast();
+        assertThat(exp).isSameAs(list1);
+        verify(gameRep).findLast();
     }
 }

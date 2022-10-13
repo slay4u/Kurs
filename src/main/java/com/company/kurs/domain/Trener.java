@@ -29,4 +29,9 @@ public class Trener {
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
     @JoinColumn(name = "id_comanda", nullable = false)
     private Comanda trenerComanda;
+
+    @Override
+    public String toString() {
+        return this.pibtrener;
+    }
 }
