@@ -11,4 +11,9 @@ public class MainController {
         System.out.println("main controller");
         return "index";
     }
+
+    @GetMapping("/403")
+    public String error403(){
+        return "403";
+    }
 }

@@ -33,6 +33,6 @@ class KursApplicationTests {
 
     @Test
     void defaultMessage() throws Exception {
-        this.mockMvc.perform(get("/index")).andDo(print()).andExpect(status().is(404));
+        this.mockMvc.perform(get("/index")).andDo(print()).andExpect(status().is(401));
     }
 }
