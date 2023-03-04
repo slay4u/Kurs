@@ -28,6 +28,8 @@ public class Player {
     private String pibPlayer;
     @Column(length = 50, nullable = false, unique = false)
     private String country2;
+    @Column(nullable = true, unique = false, length = 3)
+    private Double agePlayer;
 
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
     @JoinColumn(name = "id_comanda", nullable = false)

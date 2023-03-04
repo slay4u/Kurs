@@ -19,4 +19,8 @@ public interface PlayerRep extends CrudRepository<Player, Integer> {
     @Transactional
     @Query(value = "SELECT * FROM player WHERE player.pib_player LIKE ?1%", nativeQuery = true)
     List<Player> findPlayerByLetter(@Param("pibPlayer") String pibPlayer);
+
+    @Transactional
+    @Query(value = "SELECT * FROM player WHERE player.age_player BETWEEN ?1 AND ?2", nativeQuery = true)
+    List<Player> findPlayerByAge(@Param("age1") Double age1, @Param("age2") Double age2);
 }

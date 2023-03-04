@@ -57,4 +57,8 @@ public class PlayerService {
     public List<Player> getPlayerByLetter(String pibPlayer){
         return repo.findPlayerByLetter(pibPlayer);
     }
+
+    public List<Player> getPlayerByAge(Double age1, Double age2) {
+        return repo.findPlayerByAge(age1, age2);
+    }
 }

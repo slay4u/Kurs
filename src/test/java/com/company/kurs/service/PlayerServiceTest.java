@@ -14,10 +14,8 @@ import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.boot.test.mock.mockito.MockBean;
 
 import javax.persistence.EntityNotFoundException;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-import java.util.Optional;
+import java.io.ByteArrayInputStream;
+import java.util.*;
 
 import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 import static org.junit.jupiter.api.Assertions.*;
@@ -123,4 +121,45 @@ class PlayerServiceTest {
         assertThat(expectedList).isSameAs(list1);
         verify(playerRep).findPlayerByLetter("V");
     }
+
+    @Test
+    void getPlayerByAge() {
+        Player player1 = Player.builder().idPlayer(1).pibPlayer("Victor Krylosov").agePlayer((double) 19).build();
+        Player player2 = Player.builder().idPlayer(2).pibPlayer("Valentin Shulga").agePlayer((double) 36).build();
+        Player player3 = Player.builder().idPlayer(3).pibPlayer("Dmytro Vovk").agePlayer((double) 55).build();
+        List<Player> list = new ArrayList<>(Arrays.asList(player1, player2, player3));
+        List<Player> list1 = new ArrayList<>();
+        String data = "10" + "\n100.1S";
+        System.setIn(new ByteArrayInputStream(data.getBytes()));
+        Scanner scanner = new Scanner(System.in);
+        String input1 = scanner.nextLine();
+        String input2 = scanner.nextLine();
+        Double age1 = Double.parseDouble(input1);
+        Double age2 = Double.parseDouble(input2);
+        if(age1 < 0){
+            throw new IllegalArgumentException("Invalid input data before border 0: " + age1);
+        }
+        if(age2 > 100){
+            throw new IllegalArgumentException("Invalid input data after border 100: " + age2);
+        }
+        Mockito.doAnswer(invocation -> {
+            list.forEach(player -> {
+                if(player.getAgePlayer() > age1 && player.getAgePlayer() < age2) {
+                    list1.add(player);
+                }
+            });
+            if (age1 == 0){
+                System.out.println("Minimal border " + age1);
+            }
+            if (age2 == 100){
+                System.out.println("Maximal border " + age2);
+            }
+            System.out.println("Test was executed with input values: " + age1 + "; " + age2);
+            return list1;
+        }).when(playerRep).findPlayerByAge(age1, age2);
+        List<Player> expected = playerRep.findPlayerByAge(age1, age2);
+        assertThat(expected).isSameAs(list1);
+        verify(playerRep).findPlayerByAge(age1, age2);
+    }
+
 }
